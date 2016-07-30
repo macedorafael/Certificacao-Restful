@@ -15,7 +15,7 @@ public class CartRestful {
 	ShoppingCartDao dao = new ShoppingCartDao();
 	
 	@GET
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	@Path("{id}")
 	public ShoppingCart getCartById(@PathParam("id") long id){
 		return dao.getCartByID(id);
