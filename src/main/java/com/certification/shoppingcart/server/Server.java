@@ -9,12 +9,23 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 public class Server {
 	
+	private static HttpServer server;
+	
 	public static void main(String[] args) throws IOException {
+		initServer();
+		System.out.println("Iniciado...");
+		System.in.read();	
+		stopServer();
+	}
+
+	public static void initServer() {
 		ResourceConfig config = new ResourceConfig().packages("com.certification.shoppingcart");
 		URI uri = URI.create("http://localhost:8080/");
-		HttpServer server = GrizzlyHttpServerFactory.createHttpServer(uri, config);
-		System.out.println("Rodando ...");
-		System.in.read();
+		server = GrizzlyHttpServerFactory.createHttpServer(uri, config);
+	}
+	
+	
+	public static void stopServer(){
 		server.stop();
 	}
 

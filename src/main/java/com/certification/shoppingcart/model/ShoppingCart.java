@@ -13,8 +13,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ShoppingCart {
 	
 	private Long id;
-	private List<Item> items;
 	private String client;
+	private List<Item> items;
 	
 	ShoppingCart() {
 		super();

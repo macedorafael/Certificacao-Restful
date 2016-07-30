@@ -2,6 +2,7 @@ package com.certification.shoppingcart.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -15,8 +16,9 @@ public class CartRestful {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
-	public ShoppingCart getCartById(){
-		return dao.getCartByID(1L);
+	@Path("{id}")
+	public ShoppingCart getCartById(@PathParam("id") long id){
+		return dao.getCartByID(id);
 	}
 
 }
