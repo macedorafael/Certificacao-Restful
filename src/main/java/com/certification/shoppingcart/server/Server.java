@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.net.URI;
 
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 public class Server {
@@ -18,10 +21,14 @@ public class Server {
 		stopServer();
 	}
 
-	public static void initServer() {
+	public static ClientConfig initServer() {
 		ResourceConfig config = new ResourceConfig().packages("com.certification.shoppingcart");
 		URI uri = URI.create("http://localhost:8080/");
 		server = GrizzlyHttpServerFactory.createHttpServer(uri, config);
+		ClientConfig clientConfig = new ClientConfig();
+		clientConfig.register(new LoggingFilter());
+		return clientConfig;
+		
 	}
 	
 	
