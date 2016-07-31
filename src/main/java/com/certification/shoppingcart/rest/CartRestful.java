@@ -1,5 +1,7 @@
 package com.certification.shoppingcart.rest;
 
+import java.net.URI;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -8,12 +10,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.Response.StatusType;
 
 import com.certification.shoppingcart.Dao.ShoppingCartDao;
 import com.certification.shoppingcart.model.Item;
-import com.certification.shoppingcart.model.Project;
 import com.certification.shoppingcart.model.ShoppingCart;
 
 @Path("cart")
@@ -32,8 +31,12 @@ public class CartRestful {
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response addItemInCart(@PathParam("idCart") Long idCart, Item item){
-		dao.addItemInCart(idCart, item);
-		return Response.status(Status.CREATED).build();
+		
+		ShoppingCart cart = dao.addItemInCart(idCart, item);
+		//Devolvendo um header chamado location para o cliente com a uri que acabamos de inserir.
+		//Interface Uniforme
+		URI uri = URI.create("/cart/" + cart.getId());
+		return Response.created(uri).build();
 	}
 
 }

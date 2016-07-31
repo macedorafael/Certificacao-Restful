@@ -49,7 +49,7 @@ public class CartRestfulTest {
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:8080");
 		Response reponse = target.path("/cart/3/item").request().post(entity);
-		
+		reponse.getHeaders().get("location");// Deveria fazer outro asset com a uri do location
 		assertEquals(Status.CREATED.getStatusCode(), reponse.getStatus());
 	}
 
