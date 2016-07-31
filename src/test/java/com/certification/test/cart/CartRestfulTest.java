@@ -1,6 +1,6 @@
 package com.certification.test.cart;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -51,6 +51,22 @@ public class CartRestfulTest {
 		Response reponse = target.path("/cart/3/item").request().post(entity);
 		reponse.getHeaders().get("location");// Deveria fazer outro asset com a uri do location
 		assertEquals(Status.CREATED.getStatusCode(), reponse.getStatus());
+	}
+	
+	@Test
+	public void testRemoveItemInCart(){
+		
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("http://localhost:8080");
+		
+		String car = target.path("/cart/3").request().get(String.class);
+		assertTrue(car.contains("TesteItem"));
+		
+		Response reponse = target.path("/cart/3/remove/item/7").request().delete();
+		assertEquals(Status.OK.getStatusCode(), reponse.getStatus());
+		
+		String car2 = target.path("/cart/3").request().get(String.class);
+		assertTrue(!car2.contains("TesteItem"));
 	}
 
 }

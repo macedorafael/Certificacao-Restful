@@ -30,6 +30,19 @@ public class ShoppingCart {
 		return this;
 	}
 	
+	public void removeItem(Long id){
+		int size = items.size();
+		try{
+		for(int i = 0; i < size; i++)
+			if(items.get(i).getId().equals(id)){
+				items.remove(i);
+				return;
+			}
+		}catch(Exception e){
+			e.getStackTrace();
+		}
+	}
+	
 	public Long getId() {
 		return id;
 	}

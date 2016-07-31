@@ -3,6 +3,7 @@ package com.certification.shoppingcart.rest;
 import java.net.URI;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -37,6 +38,13 @@ public class CartRestful {
 		//Interface Uniforme
 		URI uri = URI.create("/cart/" + cart.getId());
 		return Response.created(uri).build();
+	}
+	
+	@Path("{idCart}/remove/item/{idItem}")
+	@DELETE
+	public Response removeItemOfCart(@PathParam("idCart") Long idCart, @PathParam("idItem") Long idItem) {
+		dao.removeItemOfCart(idCart, idItem);
+		return Response.ok().build();
 	}
 
 }

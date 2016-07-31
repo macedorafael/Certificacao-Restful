@@ -64,4 +64,9 @@ public class ShoppingCartDao {
 	}
 	
 	
+	public void removeItemOfCart(Long idCart, Long idItem) {
+		ShoppingCart cart = getCartByID(idCart);
+		cart.removeItem(idItem);
+	}
+	
 }
