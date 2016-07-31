@@ -28,7 +28,7 @@ public class ProjectRestFulTest {
 	}
 	
 	@Test
-	public void testgetProject(){
+	public void testGetProject(){
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:8080");
 		Project project = target.path("/project").request().get(Project.class);

@@ -1,9 +1,11 @@
 package com.certification.test.cart;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -18,6 +20,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.certification.shoppingcart.Dao.ShoppingCartDao;
 import com.certification.shoppingcart.model.Item;
 import com.certification.shoppingcart.model.ShoppingCart;
 import com.certification.shoppingcart.server.Server;
@@ -58,14 +61,49 @@ public class CartRestfulTest {
 	@Test
 	public void testRemoveItemInCart(){
 		
-		String car = target.path("/cart/3").request().get(String.class);
-		assertTrue(car.contains("TesteItem"));
+		ShoppingCart car = target.path("/cart/3").request().get(ShoppingCart.class);
+		int lastPosition = ( car.getItems().size() -1 );
+		assertTrue("TesteItem".equalsIgnoreCase( car.getItems().get( lastPosition ).getName() ));
 		
-		Response reponse = target.path("/cart/3/remove/item/7").request().delete();
+		car.getItems().remove(lastPosition);
+		Entity<ShoppingCart> entity = Entity.entity(car, MediaType.APPLICATION_XML);
+		
+		Response reponse = target.path("/cart/3/remove/item").request().put(entity);
 		assertEquals(Status.OK.getStatusCode(), reponse.getStatus());
 		
-		String car2 = target.path("/cart/3").request().get(String.class);
-		assertTrue(!car2.contains("TesteItem"));
+		ShoppingCart car2 = target.path("/cart/3").request().get(ShoppingCart.class);
+		assertEquals(car2.getItems().size(), lastPosition);
 	}
+	
+	@Test
+	public void testRemoveCart(){
+		ShoppingCartDao dao = new ShoppingCartDao();
+		List<ShoppingCart> carts = dao.getCarts();
+		int size = carts.size();
+		
+		Response response = target.path("/cart/remove/cart/" + carts.get(0).getId()).request().delete();
+		assertEquals(Status.OK.getStatusCode(), response.getStatus());
+
+		List<ShoppingCart> carts2 = dao.getCarts();
+		assertEquals(carts2.size(), (size-1) );
+		
+	}
+	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

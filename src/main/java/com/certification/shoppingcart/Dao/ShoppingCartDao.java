@@ -64,9 +64,18 @@ public class ShoppingCartDao {
 	}
 	
 	
-	public void removeItemOfCart(Long idCart, Long idItem) {
-		ShoppingCart cart = getCartByID(idCart);
-		cart.removeItem(idItem);
+	public void removeItemOfCart(ShoppingCart cart, Long idCart) {
+		ShoppingCart cart2 = getCartByID(idCart);
+		carts.remove(cart2);
+		carts.add(cart);
+	}
+	
+	public void removeCart(Long idCart) {
+		for(ShoppingCart c: carts)
+			if(c.getId().equals(idCart)){
+				carts.remove(c);
+				return;
+			}
 	}
 	
 }
