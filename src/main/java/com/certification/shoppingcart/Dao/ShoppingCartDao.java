@@ -58,6 +58,10 @@ public class ShoppingCartDao {
 		
 	}
 	
+	public ShoppingCart addItemInCart(Long idCart, Item item){
+		ShoppingCart cart = getCartByID(idCart);
+		return cart.addItem(item);
+	}
 	
 	
 }
